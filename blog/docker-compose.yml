@@ -1,0 +1,20 @@
+version: "2"
+services:
+    nginx:
+        image: nginx:alpine
+        restart: always
+        volumes:
+            - ./conf.d/:/etc/nginx/conf.d/
+        volumes_from:
+            - php
+        links:
+            - php
+        environment:
+            VIRTUAL_HOST: m0yuqi.cn,www.m0yuqi.cn
+            ENABLE_ACME: "true"
+    php:
+        build: ./
+        image: m0yuqi/php-sqlite
+        volumes:
+            - ./www:/www
+            - ./php.ini:/etc/php7/php.ini
